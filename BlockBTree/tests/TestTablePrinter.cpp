@@ -30,21 +30,24 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <fstream>
+#include <random>
 
 using namespace sceneDB;
 constexpr size_t k_branchingFactor = 8;
-constexpr size_t k_blockSize = 1024;
-constexpr size_t k_blockAlignment = 8;
-using RecordT = size_t;
-using KeyT = size_t;
-using TableT = Table</*Key=*/KeyT, /*Record=*/RecordT, /*B=*/k_branchingFactor, /*BlockSize=*/k_blockSize, /*BlockAlignment=*/k_blockAlignment>;
+constexpr size_t k_blockSize       = 1024;
+constexpr size_t k_blockAlignment  = 8;
+using RecordT                      = size_t;
+using KeyT                         = size_t;
+using TableT =
+    Table</*Key=*/KeyT, /*Record=*/RecordT, /*B=*/k_branchingFactor, /*BlockSize=*/k_blockSize, /*BlockAlignment=*/k_blockAlignment>;
 
 class TestTablePrinter : public testing::Test
 {
 };
 
-TEST_F(TestTablePrinter, Test)
+TEST_F( TestTablePrinter, Test )
 {
     TableT table( "test_table", "TestTable" );
 
@@ -53,13 +56,24 @@ TEST_F(TestTablePrinter, Test)
     if( std::filesystem::exists( table.getSnapshotFile() ) )
         std::filesystem::remove( table.getSnapshotFile() );
 
-    table.init( /*request_write=*/true);
-    auto writer(table.getWriter());
+    table.init( /*request_write=*/true );
+    auto writer( table.getWriter() );
 
-    for( size_t i = 0; i < 256; ++i)
-        writer->Insert( 2*i, 3*i );
+    std::vector<std::pair<size_t,size_t>> pairs( 256 );
+    for( size_t i = 0; i < 256; ++i )
+    {
+        pairs[i].first  = 2 * i;
+        pairs[i].second = 3 * i;
+    }
+    auto rng = std::default_random_engine{};
+    std::shuffle( std::begin( pairs ), std::end( pairs ), rng );
 
-    auto snap = writer->TakeSnaphot();
+    for( size_t i = 0; i < 256; ++i )
+    {
+        writer->Insert( pairs[i].first, pairs[i].second );
+    }
+
+    auto snap    = writer->TakeSnaphot();
     auto printer = table.getPrinter( snap );
 
     std::ofstream out( "table.dot" );

@@ -65,7 +65,8 @@ void TablePrinter<Key, Record, B, BlockSize, BlockAlignment>::Print( std::ostrea
     // Start DOT graph.  See https://graphviz.org/doc/info/lang.html
     out << "digraph G {" << std::endl;
     out << "  layout=dot" << std::endl;
-    out << "  node [shape=record, style=filled, color=black, fillcolor=white]" << std::endl;
+    out << "  ranksep=2.0" << std::endl;
+    out << "  node [shape=record, width=0.25, style=filled, color=black, fillcolor=white]" << std::endl;
 
     // Map from block to vector of node offsets.
     std::map<size_t, std::vector<size_t>> blocks;
