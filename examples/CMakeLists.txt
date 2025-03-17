@@ -16,17 +16,12 @@ list(APPEND CMAKE_MODULE_PATH
 # Using the latest CMake is highly recommended, to ensure up-to-date CUDA language support.
 cmake_minimum_required(VERSION 3.23 FATAL_ERROR)
 include(Policies)
+include(FetchOptiX)
 
 project(OptiXToolkitExamples LANGUAGES C CXX CUDA)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
-if(NOT TARGET OptiX::OptiX)
-  # Set OptiX_INSTALL_DIR to the root of the OptiX SDK when configuring CMake.
-  set(OptiX_INSTALL_DIR "OptiX_INSTALL_DIR-NOTFOUND" CACHE PATH "Path to OptiX installed location.")
-  find_package(OptiX 7.3 REQUIRED)
-endif()
 
 add_subdirectory(Gui)
 add_subdirectory(pbrtParser)
