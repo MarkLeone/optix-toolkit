@@ -31,14 +31,16 @@
 #include <OptiXToolkit/BlockBTree/SimpleFile.h>
 #include <OptiXToolkit/Util/Exception.h>
 
-#include <filesystem>
-#include <mutex>
-#include <atomic>
-#include <vector>
-#include <stack>
-#include <memory>
-#include <map>
 #include <algorithm>
+#include <atomic>
+#include <bit>
+#include <cmath>
+#include <filesystem>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <stack>
+#include <vector>
 
 namespace sceneDB {
 
@@ -115,81 +117,66 @@ inline bool operator< ( const Snapshot& l, const Snapshot& r ) { return l.m_snap
 // If a Link is local, then what it points to is in the same 
 // TableDataBlock as the Node containing the Link.
 // Default-constructed Links are invalid.
-template <size_t BlockSize>
+template <unsigned int BlockSize>
 struct Link
 {
-    static constexpr size_t leaf_bit = size_t(1) << (sizeof(size_t) * 8 - 1);
-    static constexpr size_t local_bit = leaf_bit >> 1;
-    static constexpr size_t data_mask = ~(leaf_bit | local_bit);
-    static constexpr size_t local_mask = make_mask(BlockSize);
-    static constexpr size_t block_mask = data_mask & ~local_mask;
-    static constexpr size_t block_shift = get_msb(BlockSize);
-    static constexpr size_t block_limit = (block_mask >> block_shift) + 1;
-
     // The two MSBs of Link values are reserved.
     // The highest bit differentiates leaf from interior nodes.
     // The next bit differentiates links within a Block (local) from
     // links to other Blocks.
-    Link() = default;
+    unsigned int m_is_leaf : 1;
+    unsigned int m_is_local : 1;
+    unsigned int m_block : 31; // XXX 62 - std::log2p1( BlockSize - 1 );
+    unsigned int m_local_address : 31; // XXX std::log2p1( BlockSize - 1 );
+
+    static const unsigned int INVALID = 0x7FFFFFFF;
+
+    Link()
+        : m_is_leaf( 0 )
+        , m_is_local( 0 )
+        , m_block( INVALID )
+        , m_local_address( INVALID )
+    {
+    }
+
     Link( bool leaf, bool local, size_t block, size_t local_address )
+        : m_is_leaf( leaf )
+        , m_is_local( local )
+        , m_block( block )
+        , m_local_address( local_address )
     {
-        OTK_ASSERT( !leaf || local ); // Leaf links must be local
-        set_leaf( leaf );
-        set_local( local );
-        set_block( block );
-        set_local_address( local_address );
-    }
-    Link( const Link& o ) : m_link( o.m_link ) {}
-
-    Link& operator=( const Link& o )
-    {
-        m_link = o.m_link;
-        return *this;
+        OTK_ASSERT( !leaf || local );  // Leaf links must be local
     }
 
-    bool is_valid() const { return m_link != ~0ull; }
-    void invalidate() { m_link = ~0ull; }
+    Link( const Link& o ) = default;
 
-    bool is_leaf() const { return m_link & leaf_bit; }
-    void set_leaf( bool l )
+    Link& operator=( const Link& o ) = default;
+
+    bool is_valid() const { return m_block != INVALID && m_local_address != INVALID; }
+    void invalidate()
     {
-        if( l )
-            m_link |= leaf_bit;
-        else
-            m_link &= ~leaf_bit;
+        m_block         = INVALID;
+        m_local_address = INVALID;
     }
 
-    bool is_local() const { return m_link & local_bit; }
-    void set_local( bool l )
-    {
-        if( l )
-            m_link |= local_bit;
-        else
-            m_link &= ~local_bit;
-    }
+    bool is_leaf() const { return m_is_leaf; }
+    void set_leaf( bool l ) { m_is_leaf = l; }
+
+    bool is_local() const { return m_is_local; }
+    void set_local( bool l ) { m_is_local = l; }
 
     // Returns the offset within the block at which the data resides.
-    size_t get_local_address() const { return m_link & local_mask; }
-    void set_local_address( size_t v )
-    {
-        OTK_ASSERT( v < BlockSize );
-        m_link = ( m_link & ~local_mask ) | ( v & local_mask );
-    }
+    size_t get_local_address() const { return m_local_address; }
+    void set_local_address( size_t v ) { m_local_address = v; }
 
     // Returns the index of the block at which the data resides.
-    size_t get_block() const { return ( m_link & block_mask ) >> block_shift; }
-    void set_block( size_t b )
-    {
-        OTK_ASSERT( b < block_limit );
-        m_link = ( m_link & ~block_mask ) | ( b << block_shift );
-    }
+    size_t get_block() const { return m_block; }
+    void set_block( size_t b ) { m_block = b; }
 
     bool operator==( const Link& o ) const
     {
-        return m_link == o.m_link;
+        return m_is_leaf == o.m_is_leaf && m_is_local == o.m_is_local && m_block == o.m_block && m_local_address == o.m_local_address;
     }
-
-    size_t m_link{ ~0ull };
 };
 
 
