@@ -233,18 +233,6 @@ void initMockOptix( MockOptix& mock )
                                                           targetOpacityMicromapArraySizeInBytes );
     };
 #endif
-#if OPTIX_VERSION >= 70700
-    funcTable.optixDisplacementMicromapArrayComputeMemoryUsage = []( OptixDeviceContext context,
-                                                                     const OptixDisplacementMicromapArrayBuildInput* buildInput,
-                                                                     OptixMicromapBufferSizes* bufferSizes ) {
-        return g_mockOptix->displacementMicromapArrayComputeMemoryUsage( context, buildInput, bufferSizes );
-    };
-    funcTable.optixDisplacementMicromapArrayBuild = []( OptixDeviceContext context, CUstream stream,
-                                                        const OptixDisplacementMicromapArrayBuildInput* buildInput,
-                                                        const OptixMicromapBuffers*                     buffers ) {
-        return g_mockOptix->displacementMicromapArrayBuild( context, stream, buildInput, buffers );
-    };
-#endif
     funcTable.optixSbtRecordPackHeader = []( OptixProgramGroup programGroup, void* sbtRecordHeaderHostPointer ) {
         return g_mockOptix->sbtRecordPackHeader( programGroup, sbtRecordHeaderHostPointer );
     };

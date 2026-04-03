@@ -256,17 +256,6 @@ class MockOptix
                    CUdeviceptr                targetOpacityMicromapArray,
                    size_t                     targetOpacityMicromapArraySizeInBytes ) );
 #endif
-#if OPTIX_VERSION >= 70700
-    MOCK_METHOD( OptixResult,
-                 displacementMicromapArrayComputeMemoryUsage,
-                 ( OptixDeviceContext context, const OptixDisplacementMicromapArrayBuildInput* buildInput, OptixMicromapBufferSizes* bufferSizes ) );
-    MOCK_METHOD( OptixResult,
-                 displacementMicromapArrayBuild,
-                 ( OptixDeviceContext                              context,
-                   CUstream                                        stream,
-                   const OptixDisplacementMicromapArrayBuildInput* buildInput,
-                   const OptixMicromapBuffers*                     buffers ) );
-#endif
     MOCK_METHOD( OptixResult, sbtRecordPackHeader, ( OptixProgramGroup programGroup, void* sbtRecordHeaderHostPointer ) );
     MOCK_METHOD( OptixResult,
                  launch,
