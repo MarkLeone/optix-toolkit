@@ -34,7 +34,6 @@ otk_add_library( CuOmmBaking
   src/Util/BufferLayout.h
   src/Util/Exception.h
   src/Util/Rasterize.h
-  src/Util/VecMath.h
   src/Util/XXH.h
 )
 
@@ -47,7 +46,6 @@ source_group( "Header Files\\Implementation" FILES
   src/Util/BufferLayout.h
   src/Util/Exception.h
   src/Util/Rasterize.h
-  src/Util/VecMath.h
   src/Util/XXH.h
 )
 
@@ -75,7 +73,8 @@ target_link_libraries( CuOmmBaking
   PUBLIC
   CUDA::cudart_static
   OptiX::OptiX
-  ${CMAKE_DL_LIBS}  
+  OptiXToolkit::ShaderUtil
+  ${CMAKE_DL_LIBS}
   )
 
 set_target_properties(CuOmmBaking PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON FOLDER OmmBaking)

@@ -7,15 +7,6 @@
 #include <cuda_runtime_api.h>
 #include <vector_types.h>
 
-// Redirect deprecated CUDA vector types to explicitly-aligned variants (CUDA 12.6 only)
-#if CUDART_VERSION >= 12060 && CUDART_VERSION < 12070
-#define double4 double4_16a
-#define long4 long4_16a
-#define ulong4 ulong4_16a
-#define longlong4 longlong4_16a
-#define ulonglong4 ulonglong4_16a
-#endif
-
 #include <iostream>
 
 namespace otk {
@@ -65,10 +56,10 @@ inline std::ostream& operator<<( std::ostream& str, const short4& value )       
 inline std::ostream& operator<<( std::ostream& str, const ushort4& value )      { return otk::printer4( str, value ); }
 inline std::ostream& operator<<( std::ostream& str, const int4& value )         { return otk::printer4( str, value ); }
 inline std::ostream& operator<<( std::ostream& str, const uint4& value )        { return otk::printer4( str, value ); }
-inline std::ostream& operator<<( std::ostream& str, const long4& value )        { return otk::printer4( str, value ); }
-inline std::ostream& operator<<( std::ostream& str, const ulong4& value )       { return otk::printer4( str, value ); }
-inline std::ostream& operator<<( std::ostream& str, const longlong4& value )    { return otk::printer4( str, value ); }
-inline std::ostream& operator<<( std::ostream& str, const ulonglong4& value )   { return otk::printer4( str, value ); }
-inline std::ostream& operator<<( std::ostream& str, const float4& value )       { return otk::printer4( str, value ); }
-inline std::ostream& operator<<( std::ostream& str, const double4& value )      { return otk::printer4( str, value ); }
+inline std::ostream& operator<<( std::ostream& str, const long4_16a& value )        { return otk::printer4( str, value ); }
+inline std::ostream& operator<<( std::ostream& str, const ulong4_16a& value )       { return otk::printer4( str, value ); }
+inline std::ostream& operator<<( std::ostream& str, const longlong4_16a& value )    { return otk::printer4( str, value ); }
+inline std::ostream& operator<<( std::ostream& str, const ulonglong4_16a& value )   { return otk::printer4( str, value ); }
+inline std::ostream& operator<<( std::ostream& str, const float4& value )           { return otk::printer4( str, value ); }
+inline std::ostream& operator<<( std::ostream& str, const double4_16a& value )      { return otk::printer4( str, value ); }
 // clang-format on

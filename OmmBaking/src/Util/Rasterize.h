@@ -4,10 +4,13 @@
 
 #pragma once
 
+#include <OptiXToolkit/ShaderUtil/vec_math.h>
+
 #include <cfloat>
 
 namespace rasterize
 {
+    using otk::dot;
     __device__ float cross( const float2& a, const float2& b )
     {
         return a.x * b.y - a.y * b.x;

@@ -6,15 +6,9 @@
 
 #include "CuOmmBakingImpl.h"
 #include "Util/XXH.h"
-#include "Util/VecMath.h"
+#include <OptiXToolkit/ShaderUtil/vec_math.h>
 
-namespace {
-
-    __device__ bool operator!=( float2 a0, float2 a1 )
-    {
-        return a0.x != a1.x || a0.y != a1.y;
-    }
-};
+// vec_math.h provides operator!= for float2
 
 struct Triangle
 {

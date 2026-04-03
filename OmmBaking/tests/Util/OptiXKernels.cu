@@ -4,7 +4,8 @@
 
 #include <optix.h>
 
-#include "../../src/Util/VecMath.h"
+#include <OptiXToolkit/ShaderUtil/vec_math.h>
+using otk::clamp;
 #include "OptiXKernels.h"
 
 extern "C" {

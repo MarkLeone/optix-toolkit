@@ -8,7 +8,7 @@
 
 #include "SummedAreaTable.h"
 #include "Texture.h"
-#include "Util/VecMath.h"
+#include <OptiXToolkit/ShaderUtil/vec_math.h>
 
 #include <limits>
 #include <algorithm>

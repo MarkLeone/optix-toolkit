@@ -5,7 +5,9 @@
 #pragma once
 
 #include <cuda_runtime.h>
-#include "Util/VecMath.h"
+#include <OptiXToolkit/ShaderUtil/vec_math.h>
+using otk::min;
+using otk::max;
 #include "Util/Rasterize.h"
 #include "CuOmmBakingImpl.h"
 
