@@ -4654,6 +4654,10 @@ namespace otk {
 /** additional constructors
 * @{
 */
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const long long x, const long long y, const long long z, const long long w)
+{
+    return ::make_longlong4_16a(x, y, z, w);
+}
 OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const long long s)
 {
     return make_longlong4_16a(s, s, s, s);
@@ -5233,6 +5237,10 @@ namespace otk {
 /** additional constructors
 * @{
 */
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const unsigned long long x, const unsigned long long y, const unsigned long long z, const unsigned long long w)
+{
+    return ::make_ulonglong4_16a(x, y, z, w);
+}
 OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const unsigned long long s)
 {
     return make_ulonglong4_16a(s, s, s, s);
