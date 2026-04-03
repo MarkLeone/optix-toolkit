@@ -9,20 +9,6 @@
 #include <vector_functions.h>
 #include <vector_types.h>
 
-// Redirect deprecated CUDA vector types to explicitly-aligned variants (CUDA 12.6 only)
-#if CUDART_VERSION >= 12060 && CUDART_VERSION < 12070
-#define double4 double4_16a
-#define long4 long4_16a
-#define ulong4 ulong4_16a
-#define longlong4 longlong4_16a
-#define ulonglong4 ulonglong4_16a
-#define make_double4 make_double4_16a
-#define make_long4 make_long4_16a
-#define make_ulong4 make_ulong4_16a
-#define make_longlong4 make_longlong4_16a
-#define make_ulonglong4 make_ulonglong4_16a
-#endif
-
 #if !defined(__CUDACC_RTC__)
 #include <cmath>
 #include <cstdlib>
@@ -1238,36 +1224,36 @@ namespace otk {
 
 } // namespace otk
 
-/* double4 operators */
+/* double4_16a operators */
 /******************************************************************************/
 
 /** negate */
-OTK_INLINE OTK_HOSTDEVICE double4 operator-( const double4& a )
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator-( const double4_16a& a )
 {
-  return ::make_double4( -a.x, -a.y, -a.z, -a.w );
+  return make_double4_16a( -a.x, -a.y, -a.z, -a.w );
 }
 
 /** add
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE double4 operator+( const double4& a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator+( const double4_16a& a, const double4_16a& b )
 {
-  return ::make_double4( a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w );
+  return make_double4_16a( a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator+( const double4& a, const double b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator+( const double4_16a& a, const double b )
 {
-  return ::make_double4( a.x + b, a.y + b, a.z + b, a.w + b );
+  return make_double4_16a( a.x + b, a.y + b, a.z + b, a.w + b );
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator+( const double a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator+( const double a, const double4_16a& b )
 {
-  return ::make_double4( a + b.x, a + b.y, a + b.z, a + b.w );
+  return make_double4_16a( a + b.x, a + b.y, a + b.z, a + b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator+=( double4& a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator+=( double4_16a& a, const double4_16a& b )
 {
   a = a + b;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator+=( double4& a, const double b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator+=( double4_16a& a, const double b )
 {
   a = a + b;
   return a;
@@ -1277,24 +1263,24 @@ OTK_INLINE OTK_HOSTDEVICE double4& operator+=( double4& a, const double b )
 /** subtract
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE double4 operator-( const double4& a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator-( const double4_16a& a, const double4_16a& b )
 {
-  return ::make_double4( a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w );
+  return make_double4_16a( a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator-( const double4& a, const double b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator-( const double4_16a& a, const double b )
 {
-  return ::make_double4( a.x - b, a.y - b, a.z - b, a.w - b );
+  return make_double4_16a( a.x - b, a.y - b, a.z - b, a.w - b );
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator-( const double a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator-( const double a, const double4_16a& b )
 {
-  return ::make_double4( a - b.x, a - b.y, a - b.z, a - b.w );
+  return make_double4_16a( a - b.x, a - b.y, a - b.z, a - b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator-=( double4& a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator-=( double4_16a& a, const double4_16a& b )
 {
   a = a - b;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator-=( double4& a, const double b )
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator-=( double4_16a& a, const double b )
 {
   a = a - b;
   return a;
@@ -1304,24 +1290,24 @@ OTK_INLINE OTK_HOSTDEVICE double4& operator-=( double4& a, const double b )
 /** multiply
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE double4 operator*(const double4& a, const double4& b)
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator*(const double4_16a& a, const double4_16a& b)
 {
-  return ::make_double4(a.x * b.x, a.y * b.y, a.z * b.z, 0);
+  return make_double4_16a(a.x * b.x, a.y * b.y, a.z * b.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator*(const double4& a, const double s)
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator*(const double4_16a& a, const double s)
 {
-  return ::make_double4(a.x * s, a.y * s, a.z * s, 0);
+  return make_double4_16a(a.x * s, a.y * s, a.z * s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator*(const double s, const double4& a)
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator*(const double s, const double4_16a& a)
 {
-  return ::make_double4(a.x * s, a.y * s, a.z * s, 0);
+  return make_double4_16a(a.x * s, a.y * s, a.z * s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator*=(double4& a, const double4& s)
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator*=(double4_16a& a, const double4_16a& s)
 {
   a = a * s;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator*=(double4& a, const double s)
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator*=(double4_16a& a, const double s)
 {
   a = a * s;
   return a;
@@ -1331,24 +1317,24 @@ OTK_INLINE OTK_HOSTDEVICE double4& operator*=(double4& a, const double s)
 /** divide
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE double4 operator/(const double4& a, const double4& b)
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator/(const double4_16a& a, const double4_16a& b)
 {
-  return ::make_double4(a.x / b.x, a.y / b.y, a.z / b.z, 0);
+  return make_double4_16a(a.x / b.x, a.y / b.y, a.z / b.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator/(const double4& a, const double s)
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator/(const double4_16a& a, const double s)
 {
-  return ::make_double4(a.x / s, a.y / s, a.z / s, 0);
+  return make_double4_16a(a.x / s, a.y / s, a.z / s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE double4 operator/(const double s, const double4& a)
+OTK_INLINE OTK_HOSTDEVICE double4_16a operator/(const double s, const double4_16a& a)
 {
-  return ::make_double4(s /a.x, s / a.y, s / a.z, 0);
+  return make_double4_16a(s /a.x, s / a.y, s / a.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator/=(double4& a, const double4& s)
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator/=(double4_16a& a, const double4_16a& s)
 {
   a = a / s;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE double4& operator/=(double4& a, const double s)
+OTK_INLINE OTK_HOSTDEVICE double4_16a& operator/=(double4_16a& a, const double s)
 {
   a = a / s;
   return a;
@@ -1358,12 +1344,12 @@ OTK_INLINE OTK_HOSTDEVICE double4& operator/=(double4& a, const double s)
 /** equality
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE bool operator==( const double4& a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE bool operator==( const double4_16a& a, const double4_16a& b )
 {
   return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
 }
 
-OTK_INLINE OTK_HOSTDEVICE bool operator!=( const double4& a, const double4& b )
+OTK_INLINE OTK_HOSTDEVICE bool operator!=( const double4_16a& a, const double4_16a& b )
 {
   return !( a == b );
 }
@@ -1371,7 +1357,7 @@ OTK_INLINE OTK_HOSTDEVICE bool operator!=( const double4& a, const double4& b )
 
 namespace otk {
 
-/* double4 functions */
+/* double4_16a functions */
 /******************************************************************************/
 
 } // namespace otk
@@ -3596,36 +3582,36 @@ namespace otk {
 
 } // namespace otk
 
-/* long4 operators */
+/* long4_16a operators */
 /******************************************************************************/
 
 /** negate */
-OTK_INLINE OTK_HOSTDEVICE long4 operator-( const long4& a )
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator-( const long4_16a& a )
 {
-  return ::make_long4( -a.x, -a.y, -a.z, -a.w );
+  return make_long4_16a( -a.x, -a.y, -a.z, -a.w );
 }
 
 /** add
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE long4 operator+( const long4& a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator+( const long4_16a& a, const long4_16a& b )
 {
-  return ::make_long4( a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w );
+  return make_long4_16a( a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator+( const long4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator+( const long4_16a& a, const long b )
 {
-  return ::make_long4( a.x + b, a.y + b, a.z + b, a.w + b );
+  return make_long4_16a( a.x + b, a.y + b, a.z + b, a.w + b );
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator+( const long a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator+( const long a, const long4_16a& b )
 {
-  return ::make_long4( a + b.x, a + b.y, a + b.z, a + b.w );
+  return make_long4_16a( a + b.x, a + b.y, a + b.z, a + b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator+=( long4& a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator+=( long4_16a& a, const long4_16a& b )
 {
   a = a + b;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator+=( long4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator+=( long4_16a& a, const long b )
 {
   a = a + b;
   return a;
@@ -3635,24 +3621,24 @@ OTK_INLINE OTK_HOSTDEVICE long4& operator+=( long4& a, const long b )
 /** subtract
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE long4 operator-( const long4& a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator-( const long4_16a& a, const long4_16a& b )
 {
-  return ::make_long4( a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w );
+  return make_long4_16a( a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator-( const long4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator-( const long4_16a& a, const long b )
 {
-  return ::make_long4( a.x - b, a.y - b, a.z - b, a.w - b );
+  return make_long4_16a( a.x - b, a.y - b, a.z - b, a.w - b );
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator-( const long a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator-( const long a, const long4_16a& b )
 {
-  return ::make_long4( a - b.x, a - b.y, a - b.z, a - b.w );
+  return make_long4_16a( a - b.x, a - b.y, a - b.z, a - b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator-=( long4& a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator-=( long4_16a& a, const long4_16a& b )
 {
   a = a - b;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator-=( long4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator-=( long4_16a& a, const long b )
 {
   a = a - b;
   return a;
@@ -3662,24 +3648,24 @@ OTK_INLINE OTK_HOSTDEVICE long4& operator-=( long4& a, const long b )
 /** multiply
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE long4 operator*(const long4& a, const long4& b)
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator*(const long4_16a& a, const long4_16a& b)
 {
-  return ::make_long4(a.x * b.x, a.y * b.y, a.z * b.z, 0);
+  return make_long4_16a(a.x * b.x, a.y * b.y, a.z * b.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator*(const long4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator*(const long4_16a& a, const long s)
 {
-  return ::make_long4(a.x * s, a.y * s, a.z * s, 0);
+  return make_long4_16a(a.x * s, a.y * s, a.z * s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator*(const long s, const long4& a)
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator*(const long s, const long4_16a& a)
 {
-  return ::make_long4(a.x * s, a.y * s, a.z * s, 0);
+  return make_long4_16a(a.x * s, a.y * s, a.z * s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator*=(long4& a, const long4& s)
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator*=(long4_16a& a, const long4_16a& s)
 {
   a = a *s;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator*=(long4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator*=(long4_16a& a, const long s)
 {
   a = a *s;
   return a;
@@ -3689,24 +3675,24 @@ OTK_INLINE OTK_HOSTDEVICE long4& operator*=(long4& a, const long s)
 /** divide
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE long4 operator/(const long4& a, const long4& b)
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator/(const long4_16a& a, const long4_16a& b)
 {
-  return ::make_long4(a.x / b.x, a.y / b.y, a.z / b.z, 0);
+  return make_long4_16a(a.x / b.x, a.y / b.y, a.z / b.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator/(const long4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator/(const long4_16a& a, const long s)
 {
-  return ::make_long4(a.x / s, a.y / s, a.z / s, 0);
+  return make_long4_16a(a.x / s, a.y / s, a.z / s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE long4 operator/(const long s, const long4& a)
+OTK_INLINE OTK_HOSTDEVICE long4_16a operator/(const long s, const long4_16a& a)
 {
-  return ::make_long4(s /a.x, s / a.y, s / a.z, 0);
+  return make_long4_16a(s /a.x, s / a.y, s / a.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator/=(long4& a, const long4& s)
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator/=(long4_16a& a, const long4_16a& s)
 {
   a = a / s;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE long4& operator/=(long4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE long4_16a& operator/=(long4_16a& a, const long s)
 {
   a = a / s;
   return a;
@@ -3716,12 +3702,12 @@ OTK_INLINE OTK_HOSTDEVICE long4& operator/=(long4& a, const long s)
 /** equality
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE bool operator==( const long4& a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE bool operator==( const long4_16a& a, const long4_16a& b )
 {
   return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
 }
 
-OTK_INLINE OTK_HOSTDEVICE bool operator!=( const long4& a, const long4& b )
+OTK_INLINE OTK_HOSTDEVICE bool operator!=( const long4_16a& a, const long4_16a& b )
 {
   return !( a == b );
 }
@@ -3729,35 +3715,35 @@ OTK_INLINE OTK_HOSTDEVICE bool operator!=( const long4& a, const long4& b )
 
 namespace otk {
 
-/* long4 functions */
+/* long4_16a functions */
 /******************************************************************************/
 
 } // namespace otk
 
-/* ulong4 operators */
+/* ulong4_16a operators */
 /******************************************************************************/
 
 /** add
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator+( const ulong4& a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator+( const ulong4_16a& a, const ulong4_16a& b )
 {
-  return ::make_ulong4( a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w );
+  return make_ulong4_16a( a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator+( const ulong4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator+( const ulong4_16a& a, const long b )
 {
-  return ::make_ulong4( a.x + b, a.y + b, a.z + b, a.w + b );
+  return make_ulong4_16a( a.x + b, a.y + b, a.z + b, a.w + b );
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator+( const long a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator+( const long a, const ulong4_16a& b )
 {
-  return ::make_ulong4( a + b.x, a + b.y, a + b.z, a + b.w );
+  return make_ulong4_16a( a + b.x, a + b.y, a + b.z, a + b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator+=( ulong4& a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator+=( ulong4_16a& a, const ulong4_16a& b )
 {
   a = a + b;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator+=( ulong4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator+=( ulong4_16a& a, const long b )
 {
   a = a + b;
   return a;
@@ -3767,24 +3753,24 @@ OTK_INLINE OTK_HOSTDEVICE ulong4& operator+=( ulong4& a, const long b )
 /** subtract
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator-( const ulong4& a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator-( const ulong4_16a& a, const ulong4_16a& b )
 {
-  return ::make_ulong4( a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w );
+  return make_ulong4_16a( a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator-( const ulong4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator-( const ulong4_16a& a, const long b )
 {
-  return ::make_ulong4( a.x - b, a.y - b, a.z - b, a.w - b );
+  return make_ulong4_16a( a.x - b, a.y - b, a.z - b, a.w - b );
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator-( const long a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator-( const long a, const ulong4_16a& b )
 {
-  return ::make_ulong4( a - b.x, a - b.y, a - b.z, a - b.w );
+  return make_ulong4_16a( a - b.x, a - b.y, a - b.z, a - b.w );
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator-=( ulong4& a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator-=( ulong4_16a& a, const ulong4_16a& b )
 {
   a = a - b;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator-=( ulong4& a, const long b )
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator-=( ulong4_16a& a, const long b )
 {
   a = a - b;
   return a;
@@ -3794,24 +3780,24 @@ OTK_INLINE OTK_HOSTDEVICE ulong4& operator-=( ulong4& a, const long b )
 /** multiply
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator*(const ulong4& a, const ulong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator*(const ulong4_16a& a, const ulong4_16a& b)
 {
-  return ::make_ulong4(a.x * b.x, a.y * b.y, a.z * b.z, 0);
+  return make_ulong4_16a(a.x * b.x, a.y * b.y, a.z * b.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator*(const ulong4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator*(const ulong4_16a& a, const long s)
 {
-  return ::make_ulong4(a.x * s, a.y * s, a.z * s, 0);
+  return make_ulong4_16a(a.x * s, a.y * s, a.z * s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator*(const long s, const ulong4& a)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator*(const long s, const ulong4_16a& a)
 {
-  return ::make_ulong4(a.x * s, a.y * s, a.z * s, 0);
+  return make_ulong4_16a(a.x * s, a.y * s, a.z * s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator*=(ulong4& a, const ulong4& s)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator*=(ulong4_16a& a, const ulong4_16a& s)
 {
   a = a * s;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator*=(ulong4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator*=(ulong4_16a& a, const long s)
 {
   a = a * s;
   return a;
@@ -3821,24 +3807,24 @@ OTK_INLINE OTK_HOSTDEVICE ulong4& operator*=(ulong4& a, const long s)
 /** divide
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator/(const ulong4& a, const ulong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator/(const ulong4_16a& a, const ulong4_16a& b)
 {
-  return ::make_ulong4(a.x / b.x, a.y / b.y, a.z / b.z, 0);
+  return make_ulong4_16a(a.x / b.x, a.y / b.y, a.z / b.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator/(const ulong4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator/(const ulong4_16a& a, const long s)
 {
-  return ::make_ulong4(a.x / s, a.y / s, a.z / s, 0);
+  return make_ulong4_16a(a.x / s, a.y / s, a.z / s, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4 operator/(const long s, const ulong4& a)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a operator/(const long s, const ulong4_16a& a)
 {
-  return ::make_ulong4(s /a.x, s / a.y, s / a.z, 0);
+  return make_ulong4_16a(s /a.x, s / a.y, s / a.z, 0);
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator/=(ulong4& a, const ulong4& s)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator/=(ulong4_16a& a, const ulong4_16a& s)
 {
   a = a / s;
   return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulong4& operator/=(ulong4& a, const long s)
+OTK_INLINE OTK_HOSTDEVICE ulong4_16a& operator/=(ulong4_16a& a, const long s)
 {
   a = a / s;
   return a;
@@ -3848,12 +3834,12 @@ OTK_INLINE OTK_HOSTDEVICE ulong4& operator/=(ulong4& a, const long s)
 /** equality
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE bool operator==( const ulong4& a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE bool operator==( const ulong4_16a& a, const ulong4_16a& b )
 {
   return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
 }
 
-OTK_INLINE OTK_HOSTDEVICE bool operator!=( const ulong4& a, const ulong4& b )
+OTK_INLINE OTK_HOSTDEVICE bool operator!=( const ulong4_16a& a, const ulong4_16a& b )
 {
   return !( a == b );
 }
@@ -3861,7 +3847,7 @@ OTK_INLINE OTK_HOSTDEVICE bool operator!=( const ulong4& a, const ulong4& b )
 
 namespace otk {
 
-/* ulong4 functions */
+/* ulong4_16a functions */
 /******************************************************************************/
 
 } // namespace otk
@@ -4529,36 +4515,36 @@ OTK_INLINE OTK_HOSTDEVICE void setByIndex(longlong3& v, int i, int x)
 
 } // namespace otk
 
-/* longlong4 operators */
+/* longlong4_16a operators */
 /******************************************************************************/
 
 /** negate */
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator-(const longlong4& a)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator-(const longlong4_16a& a)
 {
-    return ::make_longlong4(-a.x, -a.y, -a.z, -a.w);
+    return make_longlong4_16a(-a.x, -a.y, -a.z, -a.w);
 }
 
 /** add
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator+(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator+(const longlong4_16a& a, const longlong4_16a& b)
 {
-    return ::make_longlong4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+    return make_longlong4_16a(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator+(const long long a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator+(const long long a, const longlong4_16a& b)
 {
-    return ::make_longlong4(a + b.x, a + b.y, a + b.z, a + b.w);
+    return make_longlong4_16a(a + b.x, a + b.y, a + b.z, a + b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator+(const longlong4& a, const long long b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator+(const longlong4_16a& a, const long long b)
 {
-    return ::make_longlong4(a.x + b, a.y + b, a.z + b, a.w + b);
+    return make_longlong4_16a(a.x + b, a.y + b, a.z + b, a.w + b);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator+=(longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator+=(longlong4_16a& a, const longlong4_16a& b)
 {
     a = a + b;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator+=(longlong4& a, const long long b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator+=(longlong4_16a& a, const long long b)
 {
     a = a + b;
     return a;
@@ -4568,24 +4554,24 @@ OTK_INLINE OTK_HOSTDEVICE longlong4& operator+=(longlong4& a, const long long b)
 /** subtract
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator-(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator-(const longlong4_16a& a, const longlong4_16a& b)
 {
-    return ::make_longlong4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+    return make_longlong4_16a(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator-(const long long a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator-(const long long a, const longlong4_16a& b)
 {
-    return ::make_longlong4(a - b.x, a - b.y, a - b.z, a - b.w);
+    return make_longlong4_16a(a - b.x, a - b.y, a - b.z, a - b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator-(const longlong4& a, const long long b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator-(const longlong4_16a& a, const long long b)
 {
-    return ::make_longlong4(a.x - b, a.y - b, a.z - b, a.w - b);
+    return make_longlong4_16a(a.x - b, a.y - b, a.z - b, a.w - b);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator-=(longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator-=(longlong4_16a& a, const longlong4_16a& b)
 {
     a = a - b;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator-=(longlong4& a, const long long b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator-=(longlong4_16a& a, const long long b)
 {
     a = a - b;
     return a;
@@ -4595,24 +4581,24 @@ OTK_INLINE OTK_HOSTDEVICE longlong4& operator-=(longlong4& a, const long long b)
 /** multiply
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator*(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator*(const longlong4_16a& a, const longlong4_16a& b)
 {
-    return ::make_longlong4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
+    return make_longlong4_16a(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator*(const longlong4& a, const long long s)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator*(const longlong4_16a& a, const long long s)
 {
-    return ::make_longlong4(a.x * s, a.y * s, a.z * s, a.w * s);
+    return make_longlong4_16a(a.x * s, a.y * s, a.z * s, a.w * s);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator*(const long long s, const longlong4& a)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator*(const long long s, const longlong4_16a& a)
 {
-    return ::make_longlong4(a.x * s, a.y * s, a.z * s, a.w * s);
+    return make_longlong4_16a(a.x * s, a.y * s, a.z * s, a.w * s);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator*=(longlong4& a, const longlong4& s)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator*=(longlong4_16a& a, const longlong4_16a& s)
 {
     a = a * s;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator*=(longlong4& a, const long long s)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator*=(longlong4_16a& a, const long long s)
 {
     a = a * s;
     return a;
@@ -4622,24 +4608,24 @@ OTK_INLINE OTK_HOSTDEVICE longlong4& operator*=(longlong4& a, const long long s)
 /** divide
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator/(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator/(const longlong4_16a& a, const longlong4_16a& b)
 {
-    return ::make_longlong4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
+    return make_longlong4_16a(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator/(const longlong4& a, const long long s)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator/(const longlong4_16a& a, const long long s)
 {
-    return ::make_longlong4(a.x / s, a.y / s, a.z / s, a.w / s);
+    return make_longlong4_16a(a.x / s, a.y / s, a.z / s, a.w / s);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 operator/(const long long s, const longlong4& a)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a operator/(const long long s, const longlong4_16a& a)
 {
-    return ::make_longlong4(s / a.x, s / a.y, s / a.z, s / a.w);
+    return make_longlong4_16a(s / a.x, s / a.y, s / a.z, s / a.w);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator/=(longlong4& a, const longlong4& s)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator/=(longlong4_16a& a, const longlong4_16a& s)
 {
     a = a / s;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4& operator/=(longlong4& a, const long long s)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a& operator/=(longlong4_16a& a, const long long s)
 {
     a = a / s;
     return a;
@@ -4649,12 +4635,12 @@ OTK_INLINE OTK_HOSTDEVICE longlong4& operator/=(longlong4& a, const long long s)
 /** equality
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE bool operator==(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE bool operator==(const longlong4_16a& a, const longlong4_16a& b)
 {
     return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
 }
 
-OTK_INLINE OTK_HOSTDEVICE bool operator!=(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE bool operator!=(const longlong4_16a& a, const longlong4_16a& b)
 {
     return a.x != b.x || a.y != b.y || a.z != b.z || a.w != b.w;
 }
@@ -4662,56 +4648,56 @@ OTK_INLINE OTK_HOSTDEVICE bool operator!=(const longlong4& a, const longlong4& b
 
 namespace otk {
 
-/* longlong4 functions */
+/* longlong4_16a functions */
 /******************************************************************************/
 
 /** additional constructors
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const long long s)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const long long s)
 {
-    return ::make_longlong4(s, s, s, s);
+    return make_longlong4_16a(s, s, s, s);
 }
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const float4& a)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const float4& a)
 {
-    return ::make_longlong4((long long)a.x, (long long)a.y, (long long)a.z, (long long)a.w);
+    return make_longlong4_16a((long long)a.x, (long long)a.y, (long long)a.z, (long long)a.w);
 }
 /** @} */
 
 /** min */
-OTK_INLINE OTK_HOSTDEVICE longlong4 min(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a min(const longlong4_16a& a, const longlong4_16a& b)
 {
-    return ::make_longlong4(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z), min(a.w, b.w));
+    return make_longlong4_16a(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z), min(a.w, b.w));
 }
 
 /** max */
-OTK_INLINE OTK_HOSTDEVICE longlong4 max(const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a max(const longlong4_16a& a, const longlong4_16a& b)
 {
-    return ::make_longlong4(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
+    return make_longlong4_16a(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
 }
 
 /** clamp
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE longlong4 clamp(const longlong4& v, const long long a, const long long b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a clamp(const longlong4_16a& v, const long long a, const long long b)
 {
-    return ::make_longlong4(clamp(v.x, a, b), clamp(v.y, a, b), clamp(v.z, a, b), clamp(v.w, a, b));
+    return make_longlong4_16a(clamp(v.x, a, b), clamp(v.y, a, b), clamp(v.z, a, b), clamp(v.w, a, b));
 }
 
-OTK_INLINE OTK_HOSTDEVICE longlong4 clamp(const longlong4& v, const longlong4& a, const longlong4& b)
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a clamp(const longlong4_16a& v, const longlong4_16a& a, const longlong4_16a& b)
 {
-    return ::make_longlong4(clamp(v.x, a.x, b.x), clamp(v.y, a.y, b.y), clamp(v.z, a.z, b.z), clamp(v.w, a.w, b.w));
+    return make_longlong4_16a(clamp(v.x, a.x, b.x), clamp(v.y, a.y, b.y), clamp(v.z, a.z, b.z), clamp(v.w, a.w, b.w));
 }
 /** @} */
 
 /** If used on the device, this could place the the 'v' in local memory */
-OTK_INLINE OTK_HOSTDEVICE long long getByIndex(const longlong4& v, int i)
+OTK_INLINE OTK_HOSTDEVICE long long getByIndex(const longlong4_16a& v, int i)
 {
     return ((long long*)(&v))[i];
 }
 
 /** If used on the device, this could place the the 'v' in local memory */
-OTK_INLINE OTK_HOSTDEVICE void setByIndex(longlong4& v, int i, long long x)
+OTK_INLINE OTK_HOSTDEVICE void setByIndex(longlong4_16a& v, int i, long long x)
 {
     ((long long*)(&v))[i] = x;
 }
@@ -5114,30 +5100,30 @@ OTK_INLINE OTK_HOSTDEVICE void setByIndex(ulonglong3& v, int i, unsigned long lo
 
 } // namespace otk
 
-/* ulonglong4 operators */
+/* ulonglong4_16a operators */
 /******************************************************************************/
 
 /** add
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator+(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator+(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+    return make_ulonglong4_16a(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator+(const unsigned long long a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator+(const unsigned long long a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(a + b.x, a + b.y, a + b.z, a + b.w);
+    return make_ulonglong4_16a(a + b.x, a + b.y, a + b.z, a + b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator+(const ulonglong4& a, const unsigned long long b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator+(const ulonglong4_16a& a, const unsigned long long b)
 {
-    return ::make_ulonglong4(a.x + b, a.y + b, a.z + b, a.w + b);
+    return make_ulonglong4_16a(a.x + b, a.y + b, a.z + b, a.w + b);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator+=(ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator+=(ulonglong4_16a& a, const ulonglong4_16a& b)
 {
     a = a + b;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator+=(ulonglong4& a, const unsigned long long b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator+=(ulonglong4_16a& a, const unsigned long long b)
 {
     a = a + b;
     return a;
@@ -5147,24 +5133,24 @@ OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator+=(ulonglong4& a, const unsigned l
 /** subtract
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator-(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator-(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+    return make_ulonglong4_16a(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator-(const unsigned long long a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator-(const unsigned long long a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(a - b.x, a - b.y, a - b.z, a - b.w);
+    return make_ulonglong4_16a(a - b.x, a - b.y, a - b.z, a - b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator-(const ulonglong4& a, const unsigned long long b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator-(const ulonglong4_16a& a, const unsigned long long b)
 {
-    return ::make_ulonglong4(a.x - b, a.y - b, a.z - b, a.w - b);
+    return make_ulonglong4_16a(a.x - b, a.y - b, a.z - b, a.w - b);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator-=(ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator-=(ulonglong4_16a& a, const ulonglong4_16a& b)
 {
     a = a - b;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator-=(ulonglong4& a, const unsigned long long b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator-=(ulonglong4_16a& a, const unsigned long long b)
 {
     a = a - b;
     return a;
@@ -5174,24 +5160,24 @@ OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator-=(ulonglong4& a, const unsigned l
 /** multiply
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator*(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator*(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
+    return make_ulonglong4_16a(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator*(const ulonglong4& a, const unsigned long long s)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator*(const ulonglong4_16a& a, const unsigned long long s)
 {
-    return ::make_ulonglong4(a.x * s, a.y * s, a.z * s, a.w * s);
+    return make_ulonglong4_16a(a.x * s, a.y * s, a.z * s, a.w * s);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator*(const unsigned long long s, const ulonglong4& a)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator*(const unsigned long long s, const ulonglong4_16a& a)
 {
-    return ::make_ulonglong4(a.x * s, a.y * s, a.z * s, a.w * s);
+    return make_ulonglong4_16a(a.x * s, a.y * s, a.z * s, a.w * s);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator*=(ulonglong4& a, const ulonglong4& s)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator*=(ulonglong4_16a& a, const ulonglong4_16a& s)
 {
     a = a * s;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator*=(ulonglong4& a, const unsigned long long s)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator*=(ulonglong4_16a& a, const unsigned long long s)
 {
     a = a * s;
     return a;
@@ -5201,24 +5187,24 @@ OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator*=(ulonglong4& a, const unsigned l
 /** divide
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator/(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator/(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
+    return make_ulonglong4_16a(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator/(const ulonglong4& a, const unsigned long long s)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator/(const ulonglong4_16a& a, const unsigned long long s)
 {
-    return ::make_ulonglong4(a.x / s, a.y / s, a.z / s, a.w / s);
+    return make_ulonglong4_16a(a.x / s, a.y / s, a.z / s, a.w / s);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 operator/(const unsigned long long s, const ulonglong4& a)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a operator/(const unsigned long long s, const ulonglong4_16a& a)
 {
-    return ::make_ulonglong4(s / a.x, s / a.y, s / a.z, s / a.w);
+    return make_ulonglong4_16a(s / a.x, s / a.y, s / a.z, s / a.w);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator/=(ulonglong4& a, const ulonglong4& s)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator/=(ulonglong4_16a& a, const ulonglong4_16a& s)
 {
     a = a / s;
     return a;
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator/=(ulonglong4& a, const unsigned long long s)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a& operator/=(ulonglong4_16a& a, const unsigned long long s)
 {
     a = a / s;
     return a;
@@ -5228,12 +5214,12 @@ OTK_INLINE OTK_HOSTDEVICE ulonglong4& operator/=(ulonglong4& a, const unsigned l
 /** equality
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE bool operator==(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE bool operator==(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
     return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
 }
 
-OTK_INLINE OTK_HOSTDEVICE bool operator!=(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE bool operator!=(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
     return a.x != b.x || a.y != b.y || a.z != b.z || a.w != b.w;
 }
@@ -5241,51 +5227,51 @@ OTK_INLINE OTK_HOSTDEVICE bool operator!=(const ulonglong4& a, const ulonglong4&
 
 namespace otk {
 
-/* ulonglong4 functions */
+/* ulonglong4_16a functions */
 /******************************************************************************/
 
 /** additional constructors
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const unsigned long long s)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const unsigned long long s)
 {
-    return ::make_ulonglong4(s, s, s, s);
+    return make_ulonglong4_16a(s, s, s, s);
 }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const float4& a)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const float4& a)
 {
-    return ::make_ulonglong4((unsigned long long)a.x, (unsigned long long)a.y, (unsigned long long)a.z, (unsigned long long)a.w);
+    return make_ulonglong4_16a((unsigned long long)a.x, (unsigned long long)a.y, (unsigned long long)a.z, (unsigned long long)a.w);
 }
 /** @} */
 
 /** min
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 min(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a min(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z), min(a.w, b.w));
+    return make_ulonglong4_16a(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z), min(a.w, b.w));
 }
 /** @} */
 
 /** max
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 max(const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a max(const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
+    return make_ulonglong4_16a(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
 }
 /** @} */
 
 /** clamp
 * @{
 */
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 clamp(const ulonglong4& v, const unsigned long long a, const unsigned long long b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a clamp(const ulonglong4_16a& v, const unsigned long long a, const unsigned long long b)
 {
-    return ::make_ulonglong4(clamp(v.x, a, b), clamp(v.y, a, b), clamp(v.z, a, b), clamp(v.w, a, b));
+    return make_ulonglong4_16a(clamp(v.x, a, b), clamp(v.y, a, b), clamp(v.z, a, b), clamp(v.w, a, b));
 }
 
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 clamp(const ulonglong4& v, const ulonglong4& a, const ulonglong4& b)
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a clamp(const ulonglong4_16a& v, const ulonglong4_16a& a, const ulonglong4_16a& b)
 {
-    return ::make_ulonglong4(clamp(v.x, a.x, b.x), clamp(v.y, a.y, b.y), clamp(v.z, a.z, b.z), clamp(v.w, a.w, b.w));
+    return make_ulonglong4_16a(clamp(v.x, a.x, b.x), clamp(v.y, a.y, b.y), clamp(v.z, a.z, b.z), clamp(v.w, a.w, b.w));
 }
 /** @} */
 
@@ -5303,11 +5289,11 @@ OTK_INLINE OTK_HOSTDEVICE uint2 make_uint2(const uint3& v0) { return ::make_uint
 OTK_INLINE OTK_HOSTDEVICE uint2 make_uint2(const uint4& v0) { return ::make_uint2( v0.x, v0.y ); }
 OTK_INLINE OTK_HOSTDEVICE uint3 make_uint3(const uint4& v0) { return ::make_uint3( v0.x, v0.y, v0.z ); }
 OTK_INLINE OTK_HOSTDEVICE longlong2 make_longlong2(const longlong3& v0) { return ::make_longlong2( v0.x, v0.y ); }
-OTK_INLINE OTK_HOSTDEVICE longlong2 make_longlong2(const longlong4& v0) { return ::make_longlong2( v0.x, v0.y ); }
-OTK_INLINE OTK_HOSTDEVICE longlong3 make_longlong3(const longlong4& v0) { return ::make_longlong3( v0.x, v0.y, v0.z ); }
+OTK_INLINE OTK_HOSTDEVICE longlong2 make_longlong2(const longlong4_16a& v0) { return ::make_longlong2( v0.x, v0.y ); }
+OTK_INLINE OTK_HOSTDEVICE longlong3 make_longlong3(const longlong4_16a& v0) { return ::make_longlong3( v0.x, v0.y, v0.z ); }
 OTK_INLINE OTK_HOSTDEVICE ulonglong2 make_ulonglong2(const ulonglong3& v0) { return ::make_ulonglong2( v0.x, v0.y ); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong2 make_ulonglong2(const ulonglong4& v0) { return ::make_ulonglong2( v0.x, v0.y ); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong3 make_ulonglong3(const ulonglong4& v0) { return ::make_ulonglong3( v0.x, v0.y, v0.z ); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong2 make_ulonglong2(const ulonglong4_16a& v0) { return ::make_ulonglong2( v0.x, v0.y ); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong3 make_ulonglong3(const ulonglong4_16a& v0) { return ::make_ulonglong3( v0.x, v0.y, v0.z ); }
 OTK_INLINE OTK_HOSTDEVICE float2 make_float2(const float3& v0) { return ::make_float2( v0.x, v0.y ); }
 OTK_INLINE OTK_HOSTDEVICE float2 make_float2(const float4& v0) { return ::make_float2( v0.x, v0.y ); }
 OTK_INLINE OTK_HOSTDEVICE float3 make_float3(const float4& v0) { return ::make_float3( v0.x, v0.y, v0.z ); }
@@ -5334,20 +5320,20 @@ OTK_INLINE OTK_HOSTDEVICE uint4 make_uint4(const uint3& v0, const unsigned int v
 OTK_INLINE OTK_HOSTDEVICE uint4 make_uint4(const uint2& v0, const uint2& v1) { return ::make_uint4( v0.x, v0.y, v1.x, v1.y ); }
 OTK_INLINE OTK_HOSTDEVICE longlong3 make_longlong3(const long long v0, const longlong2& v1) { return ::make_longlong3(v0, v1.x, v1.y); }
 OTK_INLINE OTK_HOSTDEVICE longlong3 make_longlong3(const longlong2& v0, const long long v1) { return ::make_longlong3(v0.x, v0.y, v1); }
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const long long v0, const long long v1, const longlong2& v2) { return ::make_longlong4(v0, v1, v2.x, v2.y); }
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const long long v0, const longlong2& v1, const long long v2) { return ::make_longlong4(v0, v1.x, v1.y, v2); }
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const longlong2& v0, const long long v1, const long long v2) { return ::make_longlong4(v0.x, v0.y, v1, v2); }
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const long long v0, const longlong3& v1) { return ::make_longlong4(v0, v1.x, v1.y, v1.z); }
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const longlong3& v0, const long long v1) { return ::make_longlong4(v0.x, v0.y, v0.z, v1); }
-OTK_INLINE OTK_HOSTDEVICE longlong4 make_longlong4(const longlong2& v0, const longlong2& v1) { return ::make_longlong4(v0.x, v0.y, v1.x, v1.y); }
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const long long v0, const long long v1, const longlong2& v2) { return make_longlong4_16a(v0, v1, v2.x, v2.y); }
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const long long v0, const longlong2& v1, const long long v2) { return make_longlong4_16a(v0, v1.x, v1.y, v2); }
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const longlong2& v0, const long long v1, const long long v2) { return make_longlong4_16a(v0.x, v0.y, v1, v2); }
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const long long v0, const longlong3& v1) { return make_longlong4_16a(v0, v1.x, v1.y, v1.z); }
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const longlong3& v0, const long long v1) { return make_longlong4_16a(v0.x, v0.y, v0.z, v1); }
+OTK_INLINE OTK_HOSTDEVICE longlong4_16a make_longlong4_16a(const longlong2& v0, const longlong2& v1) { return make_longlong4_16a(v0.x, v0.y, v1.x, v1.y); }
 OTK_INLINE OTK_HOSTDEVICE ulonglong3 make_ulonglong3(const unsigned long long v0, const ulonglong2& v1) { return ::make_ulonglong3(v0, v1.x, v1.y); }
 OTK_INLINE OTK_HOSTDEVICE ulonglong3 make_ulonglong3(const ulonglong2& v0, const unsigned long long v1) { return ::make_ulonglong3(v0.x, v0.y, v1); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const unsigned long long v0, const unsigned long long v1, const ulonglong2& v2) { return ::make_ulonglong4(v0, v1, v2.x, v2.y); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const unsigned long long v0, const ulonglong2& v1, const unsigned long long v2) { return ::make_ulonglong4(v0, v1.x, v1.y, v2); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const ulonglong2& v0, const unsigned long long v1, const unsigned long long v2) { return ::make_ulonglong4(v0.x, v0.y, v1, v2); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const unsigned long long v0, const ulonglong3& v1) { return ::make_ulonglong4(v0, v1.x, v1.y, v1.z); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const ulonglong3& v0, const unsigned long long v1) { return ::make_ulonglong4(v0.x, v0.y, v0.z, v1); }
-OTK_INLINE OTK_HOSTDEVICE ulonglong4 make_ulonglong4(const ulonglong2& v0, const ulonglong2& v1) { return ::make_ulonglong4(v0.x, v0.y, v1.x, v1.y); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const unsigned long long v0, const unsigned long long v1, const ulonglong2& v2) { return make_ulonglong4_16a(v0, v1, v2.x, v2.y); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const unsigned long long v0, const ulonglong2& v1, const unsigned long long v2) { return make_ulonglong4_16a(v0, v1.x, v1.y, v2); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const ulonglong2& v0, const unsigned long long v1, const unsigned long long v2) { return make_ulonglong4_16a(v0.x, v0.y, v1, v2); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const unsigned long long v0, const ulonglong3& v1) { return make_ulonglong4_16a(v0, v1.x, v1.y, v1.z); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const ulonglong3& v0, const unsigned long long v1) { return make_ulonglong4_16a(v0.x, v0.y, v0.z, v1); }
+OTK_INLINE OTK_HOSTDEVICE ulonglong4_16a make_ulonglong4_16a(const ulonglong2& v0, const ulonglong2& v1) { return make_ulonglong4_16a(v0.x, v0.y, v1.x, v1.y); }
 OTK_INLINE OTK_HOSTDEVICE float3 make_float3(const float2& v0, const float v1) { return ::make_float3(v0.x, v0.y, v1); }
 OTK_INLINE OTK_HOSTDEVICE float3 make_float3(const float v0, const float2& v1) { return ::make_float3( v0, v1.x, v1.y ); }
 OTK_INLINE OTK_HOSTDEVICE float4 make_float4(const float v0, const float v1, const float2& v2) { return ::make_float4( v0, v1, v2.x, v2.y ); }

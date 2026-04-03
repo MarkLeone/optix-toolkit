@@ -34,12 +34,12 @@ template <> struct ComponentType<short4>        { using Type = short; };
 template <> struct ComponentType<ushort4>       { using Type = unsigned short; };
 template <> struct ComponentType<int4>          { using Type = int; };
 template <> struct ComponentType<uint4>         { using Type = unsigned int; };
-template <> struct ComponentType<long4>         { using Type = long; };
-template <> struct ComponentType<ulong4>        { using Type = unsigned long; };
-template <> struct ComponentType<longlong4>     { using Type = long long; };
-template <> struct ComponentType<ulonglong4>    { using Type = unsigned long long; };
-template <> struct ComponentType<float4>        { using Type = float; };
-template <> struct ComponentType<double4>       { using Type = double; };
+template <> struct ComponentType<long4_16a>         { using Type = long; };
+template <> struct ComponentType<ulong4_16a>        { using Type = unsigned long; };
+template <> struct ComponentType<longlong4_16a>     { using Type = long long; };
+template <> struct ComponentType<ulonglong4_16a>    { using Type = unsigned long long; };
+template <> struct ComponentType<float4>             { using Type = float; };
+template <> struct ComponentType<double4_16a>       { using Type = double; };
 
 template <typename T> T createOne();
 template <> short               createOne() { return static_cast<short>( 1 ); }
@@ -314,7 +314,7 @@ class Vector4Test : public Test
     T threeThreeThreeThree{ this->three, this->three, this->three, this->three };
 };
 
-using Vector4Types = Types<short4, ushort4, int4, long4, longlong4, uint4, ulong4, ulonglong4, float4, double4>;
+using Vector4Types = Types<short4, ushort4, int4, long4_16a, longlong4_16a, uint4, ulong4_16a, ulonglong4_16a, float4, double4_16a>;
 TYPED_TEST_SUITE( Vector4Test, Vector4Types );
 
 TYPED_TEST( Vector4Test, equal )
@@ -381,7 +381,7 @@ class SignedVector4Test : public Vector4Test<T>
     C minusOne{ static_cast<C>( -this->one ) };
     T minusOneOneOneOne{ minusOne, minusOne, minusOne, minusOne };
 };
-using SignedVector4Types = Types<short4, int4, long4, longlong4, float4, double4>;
+using SignedVector4Types = Types<short4, int4, long4_16a, longlong4_16a, float4, double4_16a>;
 TYPED_TEST_SUITE( SignedVector4Test, SignedVector4Types );
 
 TYPED_TEST( SignedVector4Test, negate )
