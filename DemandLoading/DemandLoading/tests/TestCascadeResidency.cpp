@@ -63,17 +63,18 @@ TEST_F( TestCascadePageAddressing, cascadeStartMatchesPageTableCapacity )
 TEST_F( TestCascadePageAddressing, cascadePageForTexture )
 {
     PageTableManager    mgr( numPages, numPageTableEntries );
-    DummyCascadeHandler handler;
+    DummyCascadeHandler samplerHandler;
+    DummyCascadeHandler cascadeHandler;
 
-    mgr.reserveBackedPages( maxTextures * NUM_PAGES_PER_TEXTURE, &handler );
-    unsigned int cascadeStartPage = mgr.reserveUnbackedPages( NUM_CASCADES * maxTextures, &handler );
+    mgr.reserveBackedPages( maxTextures * NUM_PAGES_PER_TEXTURE, &samplerHandler );
+    unsigned int cascadeStartPage = mgr.reserveUnbackedPages( NUM_CASCADES * maxTextures, &cascadeHandler );
 
     // Verify that host handler lookup matches the device page calculation
     const unsigned int textureId    = 42;
     const unsigned int cascadeLevel = 3;
     unsigned int       devicePage   = cascadeStartPage + textureId * NUM_CASCADES + cascadeLevel;
 
-    EXPECT_EQ( &handler, mgr.getRequestHandler( devicePage ) );
+    EXPECT_EQ( &cascadeHandler, mgr.getRequestHandler( devicePage ) );
 }
 
 // ---------------------------------------------------------------------------
