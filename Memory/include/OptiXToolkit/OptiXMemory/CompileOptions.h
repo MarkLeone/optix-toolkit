@@ -14,7 +14,7 @@ inline void configModuleCompileOptions( OptixModuleCompileOptions& options )
 #ifndef NDEBUG
     options.optLevel = OPTIX_COMPILE_OPTIMIZATION_LEVEL_0;
 #if OPTIX_VERSION >= 70400
-    options.debugLevel = OPTIX_COMPILE_DEBUG_LEVEL_FULL;
+    options.debugLevel = OPTIX_COMPILE_DEBUG_LEVEL_NONE;
 #endif
 
 #else
@@ -33,7 +33,7 @@ inline void configPipelineLinkOptions( OptixPipelineLinkOptions& options )
 #ifdef NDEBUG
     options.debugLevel = OPTIX_COMPILE_DEBUG_LEVEL_NONE;
 #else
-    options.debugLevel = OPTIX_COMPILE_DEBUG_LEVEL_FULL;
+    options.debugLevel = OPTIX_COMPILE_DEBUG_LEVEL_NONE;
 #endif
 }
 #else
